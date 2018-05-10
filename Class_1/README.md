@@ -6,6 +6,4 @@
 unable to understand the concepts that are introduced with the projects
 * Will include algorithm coding algorithms to help Students familiarize themselves with coding
 and how Images are processed by a computer (Both Projects are Image related)
-* Inform Students of Project they need to work on their own, outside of class hours (Not
-confirmed)
 * Start with a Short lesson on Python, classes and OOP
