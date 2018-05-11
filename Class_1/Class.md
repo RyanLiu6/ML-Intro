@@ -1,18 +1,19 @@
 # Class 1
-## Step 1
+## Step 1 (15 Minutes)
 Set up Github and have them pull skeleton code
 Introduce concepts of Machine Learning to Students
 
-#3 Step 2
+## Step 2 (15 Minutes)
 Go over homework information
+Assign homework from Leetcode
 Ask about coding experience
 
-## Step 3
+## Step 3 (45 Minutes)
 Go through OOP Class
 Cover concepts of OOP, inheritance, polymorphism
 Have students play around with the Animal Objects I wrote
 
-## Step 4
+## Step 4 (45 Minutes)
 Students should try writing their own Eagle Object based off Cat + Dog
 
 ## Step 5 (If we have time)
