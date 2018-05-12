@@ -17,6 +17,7 @@ Have students play around with the Animal Objects I wrote
 Students should try writing their own Eagle Object based off Cat + Dog
 
 ## Step 5 (If we have time)
+If there is not enough time, everything can be moved back by 30 minutes
 Students should try writing their own Shapes Class, which has the fields:
 * Type (2D, 3D)
 * Dimensions (Length, Width, Height, etc)

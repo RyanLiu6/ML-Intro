@@ -20,11 +20,9 @@ def imageToString(imagefile):
     image = utils.pyImage(imagefile)
 
     print(image.imageMat.shape)
-    userInfo = utils.getRequest(utils.Type.info).json()
-    packageInfo = utils.getRequest(utils.Type.delivery).json()
 
     currImage = cleanImage(image)
     outputStr = smt.image_to_string(currImage, lang="eng")
-    
+
     with open(os.path.join(ABSPATH, OUT, "test.txt"), "w") as f:
         f.write(outputStr.encode("utf-8"))

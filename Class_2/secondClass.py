@@ -1,7 +1,7 @@
 import extraction as ex
 
 def main():
-    image = "PathToImage"
+    image = "label.png"
     ex.imageToString(image)
 
 
