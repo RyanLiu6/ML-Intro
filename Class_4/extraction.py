@@ -24,5 +24,5 @@ def imageToString(imagefile):
     currImage = cleanImage(image)
     outputStr = smt.image_to_string(currImage, lang="eng")
 
-    with open(os.path.join(ABSPATH, OUT, "test.txt"), "w") as f:
+    with open(os.path.join(ABSPATH, OUT, "test.txt"), "wb") as f:
         f.write(outputStr.encode("utf-8"))
