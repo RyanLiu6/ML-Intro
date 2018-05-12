@@ -8,11 +8,6 @@ import pytesseract as smt
 OUT = "Output/"
 ABSPATH = os.path.dirname(os.path.realpath(__file__))
 
-userInfo = {}
-packageInfo = []
-
-thresh = 150
-
 
 def imageToString(imagefile):
     # Given a path to the image, oppen it as a pyImage object

@@ -1,8 +1,9 @@
 import extraction as ex
 
+label = "label.png"
+
 def main():
-    image = "PathToImage"
-    ex.imageToString(image)
+    ex.imageToString(label)
 
 
 if __name__ == "__main__":

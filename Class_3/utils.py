@@ -1,6 +1,9 @@
+import os
 import cv2
 
 thresh = 150
+ABSPATH = os.path.dirname(os.path.realpath(__file__))
+
 
 class pyImage:
     def __init__(self, imageName):

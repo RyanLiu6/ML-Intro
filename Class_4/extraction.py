@@ -5,23 +5,18 @@ import utils
 import pytesseract as smt
 
 
-MOD = "Modified"
 OUT = "Output/"
 ABSPATH = os.path.dirname(os.path.realpath(__file__))
 
-userInfo = {}
-packageInfo = []
-
-thresh = 150
+cleaner = utils.imageCleaner()
+tuner = utils.imageTuner()
 
 
 def imageToString(imagefile):
     # Given a path to the image, oppen it as a pyImage object
     image = utils.pyImage(imagefile)
 
-    print(image.imageMat.shape)
-
-    currImage = cleanImage(image)
+    currImage = cleaner.clean(image)
     outputStr = smt.image_to_string(currImage, lang="eng")
 
     with open(os.path.join(ABSPATH, OUT, "test.txt"), "wb") as f:
