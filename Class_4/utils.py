@@ -70,3 +70,7 @@ class imageTuner:
 
     def transform(self, inputPixel):
         return (inputPixel - 0.5)*alpha + 0.5 + beta
+
+        https://stackoverflow.com/questions/39308030/how-do-i-increase-the-contrast-of-an-image-in-python-opencv
+        http://pippin.gimp.org/image_processing/chap_point.html
+        https://stackoverflow.com/questions/32609098/how-to-fast-change-image-brightness-with-python-opencv
