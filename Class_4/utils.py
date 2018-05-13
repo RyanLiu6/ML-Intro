@@ -36,6 +36,7 @@ class imageCleaner:
 
     def checkBrightness(self, image):
         temp = image.imageMat
+        shape = image.imageMat.shape
         blue, green, red = cv2.split(temp)
 
         blue *= 0.299
@@ -45,32 +46,38 @@ class imageCleaner:
         lumin = blue + green + red
         # https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
 
+        res = numpy.sum(lumin, axis = 0)
+        brightness = res[0] / (255*shape[0]*shape[1])*2
+        print(brightness)
+
 
 class imageTuner:
-    maxPixel = 255
+    # https://stackoverflow.com/questions/39308030/how-do-i-increase-the-contrast-of-an-image-in-python-opencv
+    # http://pippin.gimp.org/image_processing/chap_point.html
+    # https://stackoverflow.com/questions/32609098/how-to-fast-change-image-brightness-with-python-opencv
     def tuneBrightness(self, image, brightness):
         # Brightness is Beta Channel
         self.alpha = 1
         self.beta = brightness
-        self.image = image
         self.tuneHelper(image)
 
     def tuneContrast(self, image, contrast):
         # Contrast is Alpha Channel
         self.alpha = contrast
         self.beta = 0
-        self.image = image
         self.tuneHelper(image)
 
     def tuneHelper(self, image):
-        shape = image.imageMat.shape
-        newImage = np.zeros((shape[0], shape[1]), image.imageMat.dtype)
+        # Convert to signed 16 bit to allow for < 0 and > 255
+        temp = np.int16(image.imageMat)
 
-        cv2.imwrite(os.path.join(ABSPATH, "changed_" + image.imageName), newImage)
+        # Apply contrast and brightness adjustments
+        temp = temp*(alpha/127 + 1) - alpha + beta
 
-    def transform(self, inputPixel):
-        return (inputPixel - 0.5)*alpha + 0.5 + beta
+        # Restrict to between 0 and 255
+        temp = np.clip(temp, 0, 255)
 
-        https://stackoverflow.com/questions/39308030/how-do-i-increase-the-contrast-of-an-image-in-python-opencv
-        http://pippin.gimp.org/image_processing/chap_point.html
-        https://stackoverflow.com/questions/32609098/how-to-fast-change-image-brightness-with-python-opencv
+        # Convert back to unsigned 8bit int
+        temp = np.uint8(temp)
+
+        cv2.imwrite(os.path.join(ABSPATH, "tuned_" + image.imageName), temp)
