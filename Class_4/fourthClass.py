@@ -4,11 +4,14 @@ import utils
 label = "label.png"
 tree = "tree.jpg"
 
-def main():
-#     ex.imageToString(label)
+cleaner = utils.imageCleaner()
+tuner = utils.imageTuner()
 
-    tuner = utils.imageTuner()
-    tuner.tuneContrast(utils.pyImage(tree), 1)
+def main():
+    ex.imageToString(label)
+
+    treeImage = utils.pyImage(tree)
+    # tuner.tuneBoth(treeImage, 64, 50)
 
 
 if __name__ == "__main__":

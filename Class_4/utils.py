@@ -24,8 +24,11 @@ class imageCleaner:
 
         cv2.imwrite(os.path.join(ABSPATH, "grayscale_" + image.imageName), grayScale)
 
-        # Apply threshold to get true Binary represenation of image
-        ret, grayScale = cv2.threshold(grayScale, thresh, 255, cv2.THRESH_BINARY)
+        # Strict Threshold based on a value we manually set
+        # self.__strictThresh__(grayScale)
+
+        # Adaptive Threshold using OpenCV Methods
+        self.__adaptiveThresh__(grayScale)
 
         # Denoise image
         grayScale = cv2.fastNlMeansDenoising(grayScale, 10, 10, 7, 21)
@@ -34,21 +37,12 @@ class imageCleaner:
 
         return grayScale
 
-    def checkBrightness(self, image):
-        temp = image.imageMat
-        shape = image.imageMat.shape
-        blue, green, red = cv2.split(temp)
+    def __strictThresh__(self, image):
+        # Apply threshold to get true Binary represenation of image
+        ret, grayScale = cv2.threshold(grayScale, thresh, 255, cv2.THRESH_BINARY)
 
-        blue *= 0.299
-        green *= 0.587
-        red *= 0.114
-
-        lumin = blue + green + red
-        # https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
-
-        res = numpy.sum(lumin, axis = 0)
-        brightness = res[0] / (255*shape[0]*shape[1])*2
-        print(brightness)
+    def __adaptiveThresh__(self, image):
+        image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 5, 0)
 
 
 class imageTuner:
@@ -57,22 +51,32 @@ class imageTuner:
     # https://stackoverflow.com/questions/32609098/how-to-fast-change-image-brightness-with-python-opencv
     def tuneBrightness(self, image, brightness):
         # Brightness is Beta Channel
+        # Choose between 0 - 100
         self.alpha = 1
         self.beta = brightness
-        self.tuneHelper(image)
+        self.__tuneHelper__(image)
 
     def tuneContrast(self, image, contrast):
         # Contrast is Alpha Channel
+        # Choose between -127 to 127
         self.alpha = contrast
         self.beta = 0
-        self.tuneHelper(image)
+        self.__tuneHelper__(image)
 
-    def tuneHelper(self, image):
+    def tuneBoth(self, image, contrast, brightness):
+        self.alpha = contrast
+        self.beta = brightness
+        self.__tuneHelper__(image)
+
+    def __tuneHelper__(self, image):
         # Convert to signed 16 bit to allow for < 0 and > 255
         temp = np.int16(image.imageMat)
 
+        print(self.alpha)
+        print(self.beta)
+
         # Apply contrast and brightness adjustments
-        temp = temp*(alpha/127 + 1) - alpha + beta
+        temp = temp*(self.alpha/127 + 1) - self.alpha + self.beta
 
         # Restrict to between 0 and 255
         temp = np.clip(temp, 0, 255)
